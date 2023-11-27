@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编辑器</title>
+    <style>
+        .cm-editor {
+            height: 100%;
+            width: 100%;
+            background-color: white;
+            font-size: 12px;
+        }
+        html,body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+        .editor{
+            height: 75%;
+            width: 100%;
+        }
+        .content{ height: 100%; width: 48%;float: left;margin-left: 5px;}
+    </style>
+</head>
+<body style="background-color: rgb(255, 230, 224);">
+    <b style="font-size: 25px;">在线进行 Google 闭包压缩 和 Terser 压缩</b><hr>
+    <div class="editor">
+        <div id="a1" class="content"></div>
+        <div id="a2" class="content"></div>    
+    </div>
+    <div id="b1">
+        <input type="radio" name="l" id="a3" checked onchange="change()">Terser 压缩
+        <input type="radio" name="l" onchange="change()">谷歌 closure 压缩
+        <button onclick="xx()">选项</button>
+        <button onclick="f1.click()">上传</button>
+        <input type="file" id="f1" onchange="sc()" hidden>
+        <button onclick="xz()">下载</button>
+        <button onclick="ys()">压缩</button>
+        <input type="checkbox" id="dwsrs" checked> 当我输入时
+    </div>
+    <div id="b2" hidden>
+        <input type="checkbox" id="tjzj">统计字节（耗时）
+        <button onclick="hhmr()">恢复默认</button>
+        <button onclick="bc()">保存</button>
+    </div>
+    <div id="div"></div>
+    <script src="editor.bundle.js"></script>
+    <script src="closure.js"></script>
+    <script src="terser.js"></script>
+</body>
+<script>
+var Tdefault = "{                   \n  parse: {\n    bare_returns        : false,\n    html5_comments      : true,\n    shebang             : true,\n    spidermonkey        : false\n  },                    \n  compress: {\n    defaults            : true,\n    arrows              : true,\n    arguments           : false,\n    booleans            : true,\n    booleans_as_integers: false,\n    collapse_vars       : true,\n    comparisons         : true,\n    computed_props      : true,\n    conditionals        : true,\n    dead_code           : true,\n    directives          : true,\n    drop_console        : false,\n    drop_debugger       : true,\n    ecma                : 5,\n    evaluate            : true,\n    expression          : false,\n    global_defs         : {},\n    hoist_funs          : false,\n    hoist_props         : true,\n    hoist_vars          : false,\n    if_return           : true,\n    inline              : true,\n    join_vars           : true,\n    keep_classnames     : false,\n    keep_fargs          : true,\n    keep_fnames         : false,\n    keep_infinity       : false,\n    lhs_constants       : true,\n    loops               : true,\n    module              : false,\n    negate_iife         : true,\n    passes              : 1,\n    properties          : true,\n    pure_funcs          : null,\n    pure_getters        : \"strict\",\n    reduce_vars         : true,\n    reduce_funcs        : true,\n    sequences           : true,\n    side_effects        : true,\n    switches            : true,\n    toplevel            : false,\n    top_retain          : null,\n    typeofs             : true,\n    unsafe              : false,\n    unsafe_arrows       : false,\n    unsafe_comps        : false,\n    unsafe_Function     : false,\n    unsafe_math         : false,\n    unsafe_symbols      : false,\n    unsafe_methods      : false,\n    unsafe_proto        : false,\n    unsafe_regexp       : false,\n    unsafe_undefined    : false,\n    unused              : true\n  },                    \n  mangle: {\n    eval                : false,\n    keep_classnames     : false,\n    keep_fnames         : false,\n    module              : false,\n    //nth_identifier    : \n    reserved            : [],\n    toplevel            : false,\n    safari10            : false,\n  /*properties: {\n      builtins          : false,\n      debug             : false,\n      keep_quoted       : false,\n      //nth_identifer   : \n      regex             : null,\n      reserved          : [],\n      undeclared        : false\n    }*/                 \n  },                    \n  format: {\n    ascii_only          : false,\n    beautify            : false,\n    braces              : false,\n    comments            : \"some\",\n    ecma                : 5,\n    indent_level        : 4,\n    indent_start        : 0,\n    inline_script       : true,\n    keep_numbers        : false,\n    keep_quoted_props   : false,\n    max_line_len        : false,\n    preamble            : null,\n    quote_keys          : false,\n    quote_style         : 0,\n    preserve_annotations: false,\n    safari10            : false,\n    semicolons          : true,\n    shebang             : true,\n    spidermonkey        : false,\n    webkit              : false,\n    wrap_iife           : false,\n    wrap_func_args      : true\n  },                    \n  ecma                  : undefined,\n  enclose               : false,\n  keep_fnames           : false,\n  keep_classnames       : undefined,\n  ie8                   : false,\n  module                : false,\n  nameCache             : null,\n  safari10              : false,\n  toplevel              : false\n}";
+var Cdefault = "{                            \n  angularPass                   : false,\n  applyInputSourceMaps          : true,\n  assumeFunctionWrapper         : false,\n  checksOnly                    : false,\n  compilationLevel              : \"SIMPLE\", \n  // WHITESPACE_ONLY, SIMPLE, ADVANCED\n  dartPass                      : false,\n  defines                       : null,\n  env                           : \"BROWSER\",\n  // BROWSER, CUSTOM\n  exportLocalPropertyDefinitions: false,\n  generateExports               : false,\n  languageIn                    : \"ES6\", \n  // ECMASCRIPT3, ECMASCRIPT5 and ECMASCRIPT5_STRICT\n  languageOut                   : \"ES5\",\n  // ECMASCRIPT6 ECMASCRIPT6_STRICT ECMASCRIPT6_TYPED ECMASCRIPT_2017 \n  newTypeInf                    : false,\n  outputWrapper                 : null,\n  polymerVersion                : null,\n  preserveTypeAnnotations       : false,\n  processCommonJsModules        : false,\n  //renamePrefixNamespace       : undefined,\n  rewritePolyfills              : true,\n  useTypesForOptimization       : false,\n  warningLevel                  : \"DEFAULT\",\n  externs                       : [],\n  createSourceMap               : false\n}";
+var T = Tdefault,C = Cdefault,tempCode="";
+var ext = [basicSetup, javascript(),EditorView.updateListener.of(function(e){
+    if (e.docChanged) { change() }
+})]
+var TO = eval("("+T+")"),CO = eval("("+C+")");
+</script>
+<script>
+var ed1 = new EditorView({
+    extensions: ext,
+    parent: a1
+});
+
+var ed2 =  new EditorView({
+    extensions: [basicSetup, javascript()],
+    parent: a2
+})
+
+ed1.getValue = ed2.getValue =  function(){
+    return this.state.doc.toString()
+}
+ed1.setValue = ed2.setValue = function(text){
+    if(typeof text != "string") text = (text || "").toString() 
+    this.setState(EditorState.create({doc: text, extensions: ext})) 
+}
+
+var d1;
+function change(){
+    clearTimeout(d1)
+    d1 = b2.hidden && dwsrs.checked && setTimeout(_change,a1.checked?226:966);
+}
+function bytesize(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:2;if(0===e)return"0 Bytes";var n=1024,r=t<0?0:t,a=["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"],o=Math.floor(Math.log(e)/Math.log(n));return parseFloat((e/Math.pow(n,o)).toFixed(r))+" "+a[o]}
+function calc(text,text1){
+    if(text.length === 0) return ed2.setValue("/* 没有输出！*/")
+    ed2.setValue(text); 
+    if(tjzj.checked){
+        text1 = new TextEncoder().encode(text1).length
+        text = new TextEncoder().encode(text).length
+        div.innerHTML = "字节：" + bytesize(text1) +"->"+ bytesize(text) + " 节约："+((1 - text / text1) * 100 || 0).toFixed(2) + '%';
+
+    }else{
+        div.innerHTML = "字数：" + text1.length +"->"+ text.length + " 节约："+((1 - text.length / text1.length) * 100 || 0).toFixed(2) + '%';
+    }
+}
+function _change(){
+    var text1 = ed1.getValue(),text="";
+    if(a3.checked){
+        Terser.minify(text1,TO).then(function(e){
+           text =  e.code
+           calc(text,text1);
+        }).catch(function(e){
+            ed2.setValue(e)
+            div.innerHTML = e
+        })
+    }else{
+        try{
+            CO = eval("("+C+")")
+            CO.jsCode = [{src:text1}]
+            var cp = compile(CO);
+            if(cp.errors.length){
+                text = JSON.stringify(cp.errors,null," ")
+            }else{
+                text = cp.compiledCode
+            }
+        }catch(e){
+            text = e.message;
+        }
+        calc(text,text1);
+    }
+}
+function sc(){
+    var reader = new FileReader();
+    reader.onload = function(e){
+        ed1.setValue(e.target.result)
+        change();
+    }
+    reader.readAsText(f1.files[0]);
+}
+function xz(){
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([ed2.getValue()]));
+    a.download = 'output.txt'
+    a.click();
+}
+function bc(){
+    if(a3.checked){
+        try{
+            T = ed1.getValue();
+            TO = eval("("+T+")")
+            Terser.minify("var l = 2757",TO).then(function(){
+                ed1.setValue(tempCode)
+                b2.hidden = "hidden"
+                b1.hidden = ""
+                a2.hidden = ""
+                a1.style.width=""
+                _change();
+            }).catch(function(e){
+                div.innerHTML = e
+            })
+        }catch(e){
+            div.innerHTML = e.message
+        }
+    }else{
+        try{
+            C = ed1.getValue();
+            var CO = eval("("+C+")")
+            CO.jsCode = [{src:tempCode}]
+            var cp = compile(CO);
+            if(cp.errors.length){
+                text = JSON.stringify(cp.errors,null," ")
+            }else{
+                text = cp.compiledCode
+            }
+            ed1.setValue(tempCode); 
+            calc(text,tempCode);
+            b2.hidden = "hidden"
+            b1.hidden = ""
+            a2.hidden = ""
+            a1.style.width=""
+        }catch(e){
+            div.innerHTML = e.message
+        }
+    }
+}
+function hhmr(){
+    if(a3.checked){
+        T = Tdefault
+        ed1.setValue(T)
+    }else{
+        C = Cdefault
+        ed1.setValue(C)
+    }
+}
+function xx(){
+    b2.hidden = ""
+    b1.hidden = "hidden"
+    a2.hidden = "hidden"
+    a1.style.width="98%"
+    tempCode = ed1.getValue();
+    if(a3.checked){
+        ed1.setValue(T)
+    }else{
+        ed1.setValue(C)
+    }
+}
+function ys(){
+    _change();
+}
+</script>
+</html>
